@@ -1,7 +1,7 @@
 import json
+import pickle
 import networkx as nx
 import matplotlib.pyplot as plt
-from collections import Counter
 
 
 def load_ubahn_data(file_path):
@@ -201,6 +201,19 @@ def visualize_graph(G, station_lines, line_colors):
     plt.close()
 
 
+def save_graph(G, filename='ubahn_graph.pkl'):
+    """Save the graph to a pickle file for reuse in other scripts."""
+    with open(filename, 'wb') as f:
+        pickle.dump(G, f)
+    print(f"Graph saved as '{filename}'")
+
+
+def load_graph(filename='ubahn_graph.pkl'):
+    """Load a graph from a pickle file."""
+    with open(filename, 'rb') as f:
+        return pickle.load(f)
+
+
 def main():
     # Load data
     data = load_ubahn_data('data/ubahn.json')
@@ -213,6 +226,9 @@ def main():
     
     # Visualize graph
     visualize_graph(G, station_lines, line_colors)
+    
+    # Save graph for reuse in other files
+    save_graph(G, 'ubahn_graph.pkl')
 
 
 if __name__ == "__main__":
